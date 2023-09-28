@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { api } from "../api";
+import { API } from "../api";
 
 
 export default function Login ({setUser}: {setUser(user: User|null): void}) {
@@ -17,7 +17,7 @@ export default function Login ({setUser}: {setUser(user: User|null): void}) {
 				e.preventDefault();
 
 				try {
-					await api.authLogin(name, email);
+					await API.authLogin(name, email);
 				}
 				catch(err) {
 					alert(err)

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Dogs from "./views/Dogs";
 import Login from "./views/Login";
-import { api } from "./api";
+import { API } from "./api";
 
 
 
@@ -15,7 +15,7 @@ export default function App () {
 	}
 
 	useEffect(() => {
-		api.authLogin(defUser)
+		API.authLogin(defUser)
 		.then(res => {
 			if (res.ok) {
 				setUser(defUser)

@@ -26,6 +26,7 @@ type ResData<D> = (
 
 /* API */
 
+
 type Breed = (
   | "Affenpinscher"
   | "Afghan Hound"
@@ -148,6 +149,10 @@ type Breed = (
   | "Wire-haired Fox Terrier"
   | "Yorkshire Terrier"
 )
+
+type Sort = `${keyof Dog}:${"asc"|"desc"}`
+
+
 interface User {
   name: string
   email: string
@@ -210,7 +215,7 @@ interface SearchParams {
   /**
    * the field by which to sort results, and the direction of the sort; in the format sort=field:[asc|desc]
    * */
-  sort?: ""
+  sort?: Sort
 }
 
 interface SearchResult {
@@ -228,12 +233,12 @@ interface SearchResult {
   /**
    * a query to request the next page of results (if one exists)
    * */
-  next: string
+  next?: string
 
   /**
    * a query to request the previous page of results (if one exists)
    * */
-  prev: string
+  prev?: string
 }
 
 interface LocationParams {
