@@ -25,10 +25,6 @@ export class BreedSet extends Set<Breed> {
 
 	async #updateDogs(showDogs: ShowDogFn) {
 	  const res = await API.dogsSearch({breeds: [...this], sort: this.#sort})
-	  if (!res.ok) {
-	  	throw res.error;
-	  }
-	  await showDogs(res.data, true);
-
+	  await showDogs(res, true);
 	}
 }

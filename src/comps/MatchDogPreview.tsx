@@ -1,17 +1,22 @@
 import React from "react";
 
 
-export function MatchDogPreview({dog, setMatch}: {dog: Dog, setMatch: (m: Dog | null) => void}) {
+export function MatchDogPreview({dog, setMatch, setViewDog}: {
+	dog: Dog
+	setMatch: (m: Dog | null) => void
+	setViewDog: (dg: null | Dog) => void
+}) {
 	
 	return (
-		<div className="card fav-dog-card">
-			<div className="fav-dog-image-container">
+		<div className="card match-card">
+			<div className="match-image-container">
 				<img src={dog.img} alt={dog.name} draggable={false}/>
 			</div>
-			<div className="fav-dog-intro">
-				<div className="fav-dog-name">{dog.name}</div>
-			</div>
-			<div className="fav-dog-tools">
+			<div className="match-name">{dog.name}</div>
+			<div className="match-tools">
+				<button
+					onClick={() => setViewDog(dog)}
+				>View</button>
 				<button
 					onClick={() => {
 						if (confirm(`Unmatch from ${dog.name}?`)) {

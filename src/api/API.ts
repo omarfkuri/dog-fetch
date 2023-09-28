@@ -4,10 +4,7 @@ export class API {
 
 	static #baseURL = "https://frontend-take-home-service.fetch.com";
 
-	private static async get(
-		url: string, 
-		params: {[key: string]: any} = {}
-	) {
+	static #get(url: string, params: {[key: string]: any} = {}) {
 		return axios.get(`${this.#baseURL}${url}`, {
 			params,
 			withCredentials: true,
@@ -17,10 +14,7 @@ export class API {
 		})
 	}
 
-	private static async post(
-		url: string, 
-		body: {[key: string]: any}
-	) {
+	static #post(url: string, body: {[key: string]: any}) {
 		return axios.post(`${this.#baseURL}${url}`, body, {
 			withCredentials: true,
 			headers: {
@@ -38,32 +32,16 @@ export class API {
 	 * An auth cookie, `fetch-access-token`, will be included in the 
 	 * response headers. This will expire in 1 hour.
 	 * */
-	static async authLogin(name: string | User, email?: string): Promise<Res> {
-
+	static async authLogin(name: string | User, email?: string): Promise<void> {
 		if (!email && typeof name === "string") {
-			return {
-				ok: false,
-				error: "Email was not provided"
-			}
+			throw "Email was not provided"
 		}
 
 		const user = typeof name === "string"? {name, email}: name;
+		const res = await this.#post("/auth/login", user);
 
-		try {
-			const res = await this.post("/auth/login", user);
-
-			if (res.status !== 200) {
-				throw res
-			}
-
-			return {ok: true}
-
-		}
-		catch (error) {
-			return {
-				ok: false, 
-				error: String(error)
-			}
+		if (res.status !== 200) {
+			throw res
 		}
 	}
 
@@ -74,23 +52,12 @@ export class API {
 	 * Hit this endpoint to end a user’s session. 
 	 * This will invalidate the auth cookie.
 	 * */
-	static async authLogout(): Promise<Res> {
-		try {
-			const res = await this.post("/auth/logout", {});
+	static async authLogout(): Promise<void> {
+	 	const res = await this.#post("/auth/logout", {});
 
-			if (res.status !== 200) {
-				throw res
-			}
-
-			return {ok: true}
-
-		}
-		catch (error) {
-			return {
-				ok: false, 
-				error: String(error)
-			}
-		}
+	 	if (res.status !== 200) {
+	 		throw res
+	 	}
 	}
 
 	/**
@@ -98,102 +65,53 @@ export class API {
 	 * 
 	 * Returns an array of all possible breed names.
 	 * */
-	static async dogsBreeds(): Promise<ResData<Breed[]>> {
-		try {
-			const res = await this.get("/dogs/breeds");
+	static async dogsBreeds(): Promise<Breed[]> {
+		const res = await this.#get("/dogs/breeds");
 
-			if (res.status !== 200) {
-				throw res
-			}
-
-			return {
-				ok: true,
-				data: res.data
-			}
-
+		if (res.status !== 200) {
+			throw res
 		}
-		catch (error) {
-			return {
-				ok: false, 
-				error: String(error)
-			}
-		}
+
+		return res.data;
 	}
 
 	/**
 	 * GET next or prev /dogs/search
 	 * */
+	static async query(query: string): Promise<SearchResult> {
+		const res = await this.#get(query);
 
-	static async query(query: string): Promise<ResData<SearchResult>> {
-		try {
-			const res = await this.get(query);
-
-			if (res.status !== 200) {
-				throw res
-			}
-
-			return {
-				ok: true,
-				data: res.data
-			}
-
+		if (res.status !== 200) {
+			throw res
 		}
-		catch (error) {
-			return {
-				ok: false, 
-				error: String(error)
-			}
-		}
+
+		return res.data;
 	}
 
 	/**
 	 * GET /dogs/search
 	 * */
-	static async dogsSearch(params: SearchParams): Promise<ResData<SearchResult>> {
-		try {
-			const res = await this.get("/dogs/search", params);
+	static async dogsSearch(params: SearchParams): Promise<SearchResult> {
+		const res = await this.#get("/dogs/search", params);
 
-			if (res.status !== 200) {
-				throw res
-			}
-
-			return {
-				ok: true,
-				data: res.data
-			}
-
+		if (res.status !== 200) {
+			throw res
 		}
-		catch (error) {
-			return {
-				ok: false, 
-				error: String(error)
-			}
-		}
+
+		return res.data;
 	}
 
 	/**
 	 * POST /dogs
 	 * */
-	static async dogs(dogIDs: string[]): Promise<ResData<Dog[]>> {
-		try {
-			const res = await this.post("/dogs", dogIDs);
+	static async dogs(dogIDs: string[]): Promise<Dog[]> {
+		const res = await this.#post("/dogs", dogIDs);
 
-			if (res.status !== 200) {
-				throw res
-			}
-
-			return {
-				ok: true,
-				data: res.data
-			}
-
+		if (res.status !== 200) {
+			throw res
 		}
-		catch (error) {
-			return {
-				ok: false, 
-				error: String(error)
-			}
-		}
+
+		return res.data;
 	}
 
 	/**
@@ -203,51 +121,27 @@ export class API {
 	 * of dog IDs. This ID represents the dog the user has been 
 	 * matched with for adoption.
 	 * */
-	static async dogsMatch(dogIDs: string[]): Promise<ResData<Match>> {
-		try {
-			const res = await this.post("/dogs/match", dogIDs);
+	static async dogsMatch(dogIDs: string[]): Promise<Match> {
+		const res = await this.#post("/dogs/match", dogIDs);
 
-			if (res.status !== 200) {
-				throw res
-			}
-
-			return {
-				ok: true,
-				data: res.data
-			}
-
+		if (res.status !== 200) {
+			throw res
 		}
-		catch (error) {
-			return {
-				ok: false, 
-				error: String(error)
-			}
-		}
+
+		return res.data;
 	}
 
 	/**
 	 * POST /locations
 	 * */
-	static async locations(zip_codes: string[]): Promise<ResData<Dog[]>> {
-		try {
-			const res = await this.post("/locations", zip_codes);
+	static async locations(zip_codes: string[]): Promise<Location[]> {
+		const res = await this.#post("/locations", zip_codes);
 
-			if (res.status !== 200) {
-				throw res
-			}
-
-			return {
-				ok: true,
-				data: res.data
-			}
-
+		if (res.status !== 200) {
+			throw res
 		}
-		catch (error) {
-			return {
-				ok: false, 
-				error: String(error)
-			}
-		}
+
+		return res.data;
 	}
 
 	/**
@@ -257,26 +151,13 @@ export class API {
 	 * of dog IDs. This ID represents the dog the user has been 
 	 * matched with for adoption.
 	 * */
-	static async locationsSearch(params: LocationParams): Promise<ResData<LocationResult>> {
-		try {
-			const res = await this.post("/locations/search", params);
+	static async locationsSearch(params: LocationParams): Promise<LocationResult> {
+		const res = await this.#post("/locations/search", params);
 
-			if (res.status !== 200) {
-				throw res
-			}
-
-			return {
-				ok: true,
-				data: res.data
-			}
-
+		if (res.status !== 200) {
+			throw res
 		}
-		catch (error) {
-			return {
-				ok: false, 
-				error: String(error)
-			}
-		}
+		return res.data;
 	}
 
 }

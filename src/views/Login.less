@@ -1,0 +1,23 @@
+
+
+.label {
+	&-wrapper {
+		.col();
+		width: 100%;
+
+		&:has(input[type="checkbox"]) {
+			.row(space-between, center);
+		}
+	}
+
+	&-title {
+		width: 100%;
+		overflow: hidden;
+		margin: 0; 
+		text-overflow: ellipsis;
+	}
+}
+
+#login-form {
+	width: min-content;
+}

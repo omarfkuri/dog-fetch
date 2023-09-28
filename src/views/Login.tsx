@@ -4,8 +4,8 @@ import { API } from "../api";
 
 export default function Login ({setUser}: {setUser(user: User|null): void}) {
 
-	const [name, setName] = useState("Omar");
-	const [email, setEmail] = useState("omarfkuri@gmail.com");
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
 
 	return (
 		<>
@@ -18,6 +18,7 @@ export default function Login ({setUser}: {setUser(user: User|null): void}) {
 
 				try {
 					await API.authLogin(name, email);
+					setUser({name, email});
 				}
 				catch(err) {
 					alert(err)

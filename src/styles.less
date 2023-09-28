@@ -1,17 +1,6 @@
 
-@import "./styles/color.less";
-@import "./styles/layout.less";
-
-@accent: rgb(249, 170, 28);
-@sidebar: min(30vw, 360px);
-@cont_pad: 0.5em;
-@aside: min(20vw, 240px);
-
-@body_light: #F9F9F9;
-@body_dark: #444;
-
-@card_light: #FFF;
-@card_dark: #555;
+@import "./styles/libs/index";
+@import "./styles/colors";
 
 * {
 	box-sizing: border-box;
@@ -32,274 +21,30 @@ body {
 #root {
 	width: 100%;
 	height: 100%;
-	max-width: 1400px;
+	// max-width: 1400px;
 	margin-inline: auto;
 	position: relative;
 
 	.col(center);
-
-	&:has(#main) {
-		.row(space-between, center);
-	}
 }
 
-#login-form {
-	width: min-content;
-}
-
-.sideMenu() {
-	.col(flex-start, center);
+#overlay:not(:empty) {
 	position: fixed;
-	z-index: 2;
-	padding: @cont_pad;
-	.bg(@body_light, @body_dark);
-	height: 100%;
-	gap: 0.5em;
+	inset: 0;
+	.col(center);
+	z-index: 99;
+	.bg(#FFF9, #000a);
 }
 
-#sidebar {
-	.sideMenu();
-	width: @sidebar;
-	inset: 0 auto 0 0;
+button {
 
-	#logo-container {
-		width: 100%;
-		.col(center);
-		height: 80px;
-		background-size: contain;
-		background-repeat: no-repeat;
-		background-position: center;
-		background-image: url("/logo-light.png");
+	width: min-content;
+	white-space: nowrap;
 
-		@media (prefers-color-scheme: dark) {
-			background-image: url("/logo-dark.png");
-		}
+	&.clear {
+		background: none;
 	}
 }
 
-#main {
-	.col(flex-start, center);
-	width: 100%;
-	height: 100%;
-	margin-left:  @sidebar;
-	margin-right: @aside;
-}
-
-#aside {
-	.sideMenu();
-	width: @aside;
-	inset: 0 0 0 auto;
-	overflow-y: auto;
-
-}
-
-.card {
-	.col();
-	padding: 0.5em;
-	.bg(@card_light, @card_dark);
-	border-radius: 0.4em;
-	box-shadow: 0 1px 3px #0003;
-	width: 100%;
-}
-
-.dog-filter {
-
-	&-wrapper {
-		.col(center);
-	}
-
-	&-sort {
-		.col(center);
-	}
-
-	&-breeds {
-
-		max-height: 320px;
-		overflow-y: auto;
-		overflow-x: hidden;
-		width: 100%;
-		.col(flex-start, start);
-		gap: 0.3em;
-
-		* {
-			white-space: nowrap;
-			text-overflow: ellipsis;
-		}
-	}
-}
-
-.dog-list {
-
-	&-wrapper {
-		.col(center);
-		min-height: 200vh;
-		width: 100%;
-		padding: 1em 0.3em 9em;
-		border-radius: 0.5em 0.5em 0 0;
-		.bg(#f9f9f9, #333);
-		.sh(inset 0 1px 6px 1px, #0001, #000a);
-
-	}
-
-	&-container {
-		height: 100%;
-		width: 100%;
-
-		.row(center, start);
-		flex-wrap: wrap;
-		gap: 0.8em;
-	}
-}
-
-.dog-controls {
-
-	&-wrapper {
-
-	}
-
-	&-display {
-
-	}
-}
-
-.dog-buttons {
-
-	&-wrapper {
-		width: 100%;
-		.row(space-between, center);
-	}
-
-	&-button {
-		width: 100%;
-	}
-
-	&-button-prev {
-		.row(flex-start, center);
-	}
-
-	&-button-next {
-		.row(flex-end, center);
-	}
-}
-
-.dog-card {
-	padding: 0;
-	max-width: 240px;
-	overflow: hidden;
-
-	.dog-image-container {
-		width: 100%;
-		aspect-ratio: 6 / 5;
-		height: 100%;
-		overflow: hidden;
-
-		img {
-			width: 100%;
-			height: 100%;
-			transition: ease 200ms;
-			transform: scale(1.1);
-			object-fit: cover;
-		}
-
-		&:hover img {
-			transform: scale(1);
-		}
-	}
-
-	.dog-intro {
-		.row(space-between, center);
-		gap: 0.3em;
-		padding: 0.5em;
-		.dog-name {
-			font-weight: bold;
-			font-size: 1.1em;
-		}
-
-	}
-
-	.dog-info {
-		padding: 0.5em;
-		background: #9999;
-		width: 100%;
-		.row(space-around, center)
-	}
-}
-
-.fav-dog {
-
-	&-list {
-		&-wrapper {
-		}
-		&-container {
-			padding-left: 0.2em;
-			max-height: 260px;
-			overflow-y: auto;
-			overflow-x: hidden;
-			width: 100%;
-			.col(flex-start, start);
-			gap: 0.3em;
-
-
-
-		}
-	}
-
-	&-card {
-		padding: 0;
-	}
-
-	&-image-container {
-		width: 100%;
-		aspect-ratio: 6 / 5;
-		height: 100%;
-		overflow: hidden;
-
-		img {
-			width: 100%;
-			height: 100%;
-			transition: ease 200ms;
-			transform: scale(1.1);
-			object-fit: cover;
-		}
-
-		&:hover img {
-			transform: scale(1);
-		}
-	}
-
-	&-intro {
-		.col();
-		gap: 0.2em;
-		padding: 0.3em;
-		.dog-name {
-			font-weight: bold;
-			font-size: 1.1em;
-		}
-
-	}
-
-	&-tools {
-		padding: 0.5em;
-		background: #9999;
-		width: 100%;
-		.col()
-	}
-}
-
-.label {
-	&-wrapper {
-		.col();
-		width: 100%;
-
-		&:has(input[type="checkbox"]) {
-			.row(space-between, center);
-		}
-	}
-
-	&-title {
-		width: 100%;
-		overflow: hidden;
-		margin: 0; 
-		text-overflow: ellipsis;
-	}
-}
+@import "./views/Login";
+@import "./views/Dogs";

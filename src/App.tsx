@@ -9,24 +9,11 @@ export default function App () {
 
 	const [user, setUser] = useState<User | null>(null);
 
-	const defUser: User = {
-		name: "Omar",
-		email: "omarfkuri@gmail.com"
-	}
-
 	useEffect(() => {
-		API.authLogin(defUser)
-		.then(res => {
-			if (res.ok) {
-				setUser(defUser)
-			}
-			else {
-				throw res.error
-			}
-		})
-		.catch(alert);
-
-	}, []);
+		API.authLogin({name: "Omar", email: "em@ail.com"})
+		.then(() => setUser({name: "Omar", email: "em@ail.com"}))
+		.catch(alert)
+	}, [])
 
 	return (
 		user
