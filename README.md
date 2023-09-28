@@ -8,4 +8,4 @@
 
 
 To run this app locally, simply run `npm start` and go 
-to `localhost:3000`
+to `localhost:3040`
