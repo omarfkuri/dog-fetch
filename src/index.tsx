@@ -1,6 +1,4 @@
 
-import { reload } from "./funcs/reload";
-reload(500)
 
 import React from "react"
 import ReactDOM from 'react-dom/client';
