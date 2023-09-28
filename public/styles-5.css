@@ -614,7 +614,7 @@ button.clear {
 }
 .modal-content-image img {
   width: 80vw;
-  height: auto;
+  max-height: 90vh;
   object-fit: cover;
 }
 .modal-content-name {
