@@ -1,0 +1,165 @@
+
+@import "./styles/color.less";
+@import "./styles/layout.less";
+
+@accent: rgb(249, 170, 28);
+@sidebar: 120px;
+@cont_pad: 0.5em;
+@aside: 120px;
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	accent-color: @accent;
+	font-family: Helvetica;
+
+	&:has(#login-form) {
+		background: #9999;
+		height: 100vh;
+	}
+}
+
+#root {
+	width: 100%;
+	height: 100%;
+	max-width: 1400px;
+	margin-inline: auto;
+	position: relative;
+
+	.col(center);
+
+	&:has(#main) {
+		.row(space-between, center);
+	}
+}
+
+#login-form {
+	width: min-content;
+}
+
+
+#sidebar {
+
+	.col(flex-start, center);
+	height: 100%;
+	width: @sidebar;
+	position: fixed;
+	inset: 0 auto 0 0;
+	z-index: 2;
+	padding: @cont_pad;
+	background: canvas;
+
+
+	#logo-container {
+		width: 100%;
+		.col(center);
+		height: 80px;
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: center;
+		background: url("/logo-light.png");
+
+		@media (prefers-color-scheme: dark) {
+			background: url("/logo-dark.png");
+		}
+	}
+}
+
+#main {
+	.col(flex-start, center);
+	width: 100%;
+	height: 100%;
+	margin-left:  @sidebar;
+	margin-right: @aside;
+}
+
+#aside {
+	.col();
+	height: 100%;
+	width: @aside;
+	position: fixed;
+	inset: 0 0 0 auto;
+	z-index: 2;
+	padding: @cont_pad;
+	background: canvas;
+
+}
+
+.card {
+	.col();
+	padding: 0.5em;
+	background: canvas;
+	border-radius: 0.4em;
+	box-shadow: 0 1px 3px #0003;
+	width: 100%;
+}
+
+.dog-list {
+	width: 100%;
+	min-height: 200vh;
+	.row(center, start);
+	flex-wrap: wrap;
+	padding: 1em 0.3em 9em;
+	border-radius: 0.5em 0.5em 0 0;
+	.bg(#f9f9f9, #555);
+	.sh(inset 0 1px 6px 1px, #0001, #000a);
+
+	height: 100%;
+	gap: 0.8em;
+}
+
+.dog-card {
+	padding: 0;
+	max-width: 240px;
+	overflow: hidden;
+
+	.dog-image-container {
+		width: 100%;
+		aspect-ratio: 6 / 5;
+		height: 100%;
+		overflow: hidden;
+
+		img {
+			width: 100%;
+			height: 100%;
+			transition: ease 200ms;
+			transform: scale(1.1);
+			object-fit: cover;
+		}
+
+		&:hover img {
+			transform: scale(1);
+		}
+	}
+
+	.dog-intro {
+		.row(space-between, center);
+		gap: 0.3em;
+		padding: 0.5em;
+		.dog-name {
+			font-weight: bold;
+			font-size: 1.1em;
+		}
+
+	}
+
+	.dog-info {
+		padding: 0.5em;
+		background: #9999;
+		width: 100%;
+		.row(space-around, center)
+	}
+}
+
+label {
+	.col();
+
+	h5 { margin: 0; }
+
+	&:has(input[type="checkbox"]) {
+		.row(space-between, center);
+	}
+}
